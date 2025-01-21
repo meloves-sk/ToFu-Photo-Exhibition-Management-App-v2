@@ -30,7 +30,7 @@
             <TextBlock Text=" Round: "/>
             <ComboBox ItemsSource="{Binding RoundList,IsAsync=True}" DisplayMemberPath="Name.Value" SelectedItem="{Binding SelectedRound}"/>
             <TextBlock Text=" Manufacturer: "/>
-            <ComboBox ItemsSource="{Binding ManufacturerList}" Width="200" DisplayMemberPath="Name.Value" SelectedItem="{Binding SelectedManufacturer}"/>
+            <ComboBox ItemsSource="{Binding ManufacturerList}" DisplayMemberPath="Name.Value" SelectedItem="{Binding SelectedManufacturer}"/>
             <TextBlock Text=" Team: "/>
             <ComboBox ItemsSource="{Binding TeamList}" DisplayMemberPath="Name.Value" SelectedItem="{Binding SelectedTeam}"/>
             <TextBlock Text=" Car: "/>
@@ -60,7 +60,7 @@
             <mah:ProgressRing/>
             <TextBlock Style="{StaticResource Progress}"/>
         </StackPanel>
-        <Button Grid.Row="3"  HorizontalAlignment="Left" Margin="10">
+        <Button Grid.Row="3" HorizontalAlignment="Left">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/Resource/camera.png" Width="20"/>
