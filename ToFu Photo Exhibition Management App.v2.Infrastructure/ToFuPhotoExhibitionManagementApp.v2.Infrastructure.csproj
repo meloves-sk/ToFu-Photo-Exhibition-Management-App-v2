@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <RootNamespace>ToFuPhotoExhibitionManagementApp.v2.Infrastructure</RootNamespace>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ToFu Photo Exhibition Management App.v2.Domain\ToFuPhotoExhibitionManagementApp.v2.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

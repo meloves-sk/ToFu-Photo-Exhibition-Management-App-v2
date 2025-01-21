@@ -1,0 +1,29 @@
+﻿using System.Collections.Immutable;
+using ToFuPhotoExhibitionManagementApp.v2.Domain.Entities;
+using ToFuPhotoExhibitionManagementApp.v2.Domain.Repositories;
+using ToFuPhotoExhibitionManagementApp.v2.Infrastructure.Helper;
+
+namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.Dammy
+{
+	public class DammyCarRepository : ICarRepository
+	{
+		private List<CarEntity> _cars = new List<CarEntity>();
+		public DammyCarRepository()
+		{
+			_cars.Add(new CarEntity(1, "Car1", 1, 1, "Team1", "Manufacturer1", "Category1"));
+			_cars.Add(new CarEntity(2, "Car2", 1, 2, "Team2", "Manufacturer2", "Category2"));
+			_cars.Add(new CarEntity(3, "Car3", 1, 3, "Team3", "Manufacturer3", "Category3"));
+		}
+		public async Task<ImmutableList<CarEntity>> GetCarsAsync(int categoryId, int manufacturerId, int teamId)
+		{
+			await Task.CompletedTask;
+			return _cars.ToImmutableList();
+		}
+
+		public async Task<ImmutableList<CarEntity>> GetCarsWithDefaultAsync(int categoryId, int manufacturerId, int teamId)
+		{
+			var cars = await GetCarsAsync(categoryId, manufacturerId, teamId);
+			return cars.AddDefaultValue(new CarEntity(0, "ALL", 0, 0, string.Empty, string.Empty, string.Empty));
+		}
+	}
+}
