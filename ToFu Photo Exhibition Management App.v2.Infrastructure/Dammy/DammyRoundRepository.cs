@@ -14,13 +14,13 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.Dammy
 			_rounds.Add(new RoundEntity(2, "Round2"));
 			_rounds.Add(new RoundEntity(3, "Round3"));
 		}
-		public async Task<ImmutableList<RoundEntity>> GetRoundsAsync(int categoryId)
+		public async Task<ImmutableList<RoundEntity>> GetRoundsAsync(int? categoryId)
 		{
 			await Task.CompletedTask;
 			return _rounds.ToImmutableList();
 		}
 
-		public async Task<ImmutableList<RoundEntity>> GetRoundsWithDefaultAsync(int categoryId)
+		public async Task<ImmutableList<RoundEntity>> GetRoundsWithDefaultAsync(int? categoryId)
 		{
 			var rounds = await GetRoundsAsync(categoryId);
 			return rounds.AddDefaultValue(new RoundEntity(0, "ALL"));

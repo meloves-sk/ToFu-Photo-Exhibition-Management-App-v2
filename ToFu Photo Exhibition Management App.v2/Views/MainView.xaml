@@ -36,7 +36,7 @@
             <TextBlock Text=" Car: "/>
             <ComboBox ItemsSource="{Binding CarList}" Width="300"  DisplayMemberPath="Name.Value" SelectedItem="{Binding SelectedCar}"/>
         </StackPanel>
-        <ListBox Grid.Row="2" ItemsSource="{Binding PhotoList}" Margin="10" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Visibility="{Binding ViewVisibility}">
+        <ListBox Grid.Row="2" ItemsSource="{Binding PhotoList}" SelectedItem="{Binding SelectedPhoto}"  Visibility="{Binding ViewVisibility}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical"  Background="White" VerticalAlignment="Top">
@@ -60,7 +60,7 @@
             <mah:ProgressRing/>
             <TextBlock Style="{StaticResource Progress}"/>
         </StackPanel>
-        <Button Grid.Row="3" HorizontalAlignment="Left">
+        <Button Grid.Row="3" HorizontalAlignment="Left" Command="{Binding ShowPhotoViewCommand}">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/Resource/camera.png" Width="20"/>

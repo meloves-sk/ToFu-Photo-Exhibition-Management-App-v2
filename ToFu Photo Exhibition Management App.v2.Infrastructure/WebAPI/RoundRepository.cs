@@ -9,8 +9,12 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.WebAPI
 {
 	public class RoundRepository : IRoundRepository
 	{
-		public async Task<ImmutableList<RoundEntity>> GetRoundsAsync(int categoryId)
+		public async Task<ImmutableList<RoundEntity>> GetRoundsAsync(int? categoryId)
 		{
+			if (!Guard.NotAllNull(categoryId))
+			{
+				return ImmutableList<RoundEntity>.Empty;
+			}
 			var result = await APIHelper.Get<ServiceResponse<IEnumerable<RoundResponseDto>>>($"api/round/category/{categoryId}");
 			Guard.IsNull(result, "ラウンドの取得に失敗しました");
 			Guard.IsFail(result.Success, result.Message);
@@ -21,7 +25,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.WebAPI
 				.ToImmutableList();
 		}
 
-		public async Task<ImmutableList<RoundEntity>> GetRoundsWithDefaultAsync(int categoryId)
+		public async Task<ImmutableList<RoundEntity>> GetRoundsWithDefaultAsync(int? categoryId)
 		{
 			var rounds = await GetRoundsAsync(categoryId);
 			return rounds.AddDefaultValue(new RoundEntity(0, "ALL"));

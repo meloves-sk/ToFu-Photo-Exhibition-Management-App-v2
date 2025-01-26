@@ -14,13 +14,13 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.Dammy
 			_cars.Add(new CarEntity(2, "Car2", 1, 2, "Team2", "Manufacturer2", "Category2"));
 			_cars.Add(new CarEntity(3, "Car3", 1, 3, "Team3", "Manufacturer3", "Category3"));
 		}
-		public async Task<ImmutableList<CarEntity>> GetCarsAsync(int categoryId, int manufacturerId, int teamId)
+		public async Task<ImmutableList<CarEntity>> GetCarsAsync(int? categoryId, int? manufacturerId, int? teamId)
 		{
 			await Task.CompletedTask;
 			return _cars.ToImmutableList();
 		}
 
-		public async Task<ImmutableList<CarEntity>> GetCarsWithDefaultAsync(int categoryId, int manufacturerId, int teamId)
+		public async Task<ImmutableList<CarEntity>> GetCarsWithDefaultAsync(int? categoryId, int? manufacturerId, int? teamId)
 		{
 			var cars = await GetCarsAsync(categoryId, manufacturerId, teamId);
 			return cars.AddDefaultValue(new CarEntity(0, "ALL", 0, 0, string.Empty, string.Empty, string.Empty));

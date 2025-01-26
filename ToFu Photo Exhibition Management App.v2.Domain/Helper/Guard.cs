@@ -9,7 +9,7 @@
 				throw new Exception(message);
 			}
 		}
-		public static bool IsNotAllNull(params object?[] objects)
+		public static bool NotAllNull(params object?[] objects)
 		{
 			return objects.All(a => a != null);
 		}

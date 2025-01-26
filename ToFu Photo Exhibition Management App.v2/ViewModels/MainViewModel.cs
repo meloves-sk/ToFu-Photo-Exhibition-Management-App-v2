@@ -28,6 +28,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 		private ManufacturerEntity? _selectedManufacturer = null;
 		private TeamEntity? _selectedTeam = null;
 		private CarEntity? _selectedCar = null;
+		private PhotoEntity? _selectedPhoto = null;
 		private Visibility _viewVisibility = Visibility.Visible;
 		private Visibility _progressVisibility = Visibility.Collapsed;
 		public MainViewModel()
@@ -38,188 +39,165 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 			_teamRepository = Factories.CreateTeamRepository();
 			_carRepository = Factories.CreateCarRepository();
 			_photoRepository = Factories.CreatePhotoRepository();
-			RoundDataSetCommand = new DataSetCommand(RoundDataSet, Guard.IsNotAllNull);
-			ManufacturerDataSetCommand = new DataSetCommand(ManufacturerDataSet, Guard.IsNotAllNull);
-			TeamDataSetCommand = new DataSetCommand(TeamDataSet, Guard.IsNotAllNull);
-			CarDataSetCommand = new DataSetCommand(CarDataSet, Guard.IsNotAllNull);
-			PhotoDataSetCommand = new DataSetCommand(PhotoDataSet, Guard.IsNotAllNull);
 		}
 		public ImmutableList<CategoryEntity> CategoryList
 		{
 			get => _categoryList;
-			set
-			{
-				SetProperty(ref _categoryList, value);
-			}
+			set => SetProperty(ref _categoryList, value);
 		}
+
 		public ImmutableList<RoundEntity> RoundList
 		{
 			get => _roundList;
-			set
-			{
-				SetProperty(ref _roundList, value);
-			}
+			set => SetProperty(ref _roundList, value);
 		}
+
 		public ImmutableList<ManufacturerEntity> ManufacturerList
 		{
 			get => _manufacturerList;
-			set
-			{
-				SetProperty(ref _manufacturerList, value);
-			}
+			set => SetProperty(ref _manufacturerList, value);
 		}
+
 		public ImmutableList<TeamEntity> TeamList
 		{
 			get => _teamList;
-			set
-			{
-				SetProperty(ref _teamList, value);
-			}
+			set => SetProperty(ref _teamList, value);
 		}
+
 		public ImmutableList<CarEntity> CarList
 		{
 			get => _carList;
-			set
-			{
-				SetProperty(ref _carList, value);
-			}
+			set => SetProperty(ref _carList, value);
 		}
+
 		public ImmutableList<PhotoEntity> PhotoList
 		{
 			get => _photoList;
-			set
-			{
-				SetProperty(ref _photoList, value);
-			}
+			set => SetProperty(ref _photoList, value);
 		}
+
 		public CategoryEntity? SelectedCategory
 		{
 			get => _selectedCategory;
 			set
 			{
-				SetProperty(ref _selectedCategory, value);
-				if (RoundDataSetCommand.CanExecute(SelectedCategory))
+				if (SetProperty(ref _selectedCategory, value))
 				{
 					RoundDataSetCommand.Execute(null);
-				}
-				if (ManufacturerDataSetCommand.CanExecute(SelectedCategory))
-				{
 					ManufacturerDataSetCommand.Execute(null);
 				}
 			}
 		}
+
 		public RoundEntity? SelectedRound
 		{
 			get => _selectedRound;
 			set
 			{
-				SetProperty(ref _selectedRound, value);
-				if (PhotoDataSetCommand.CanExecute(SelectedCategory, SelectedRound, SelectedManufacturer, SelectedTeam, SelectedCar))
+				if (SetProperty(ref _selectedRound, value))
 				{
 					PhotoDataSetCommand.Execute(null);
 				}
 			}
 		}
+
 		public ManufacturerEntity? SelectedManufacturer
 		{
 			get => _selectedManufacturer;
 			set
 			{
-				SetProperty(ref _selectedManufacturer, value);
-				if (TeamDataSetCommand.CanExecute(SelectedCategory, SelectedManufacturer))
+				if (SetProperty(ref _selectedManufacturer, value))
 				{
 					TeamDataSetCommand.Execute(null);
 				}
 			}
 		}
+
 		public TeamEntity? SelectedTeam
 		{
 			get => _selectedTeam;
 			set
 			{
-				SetProperty(ref _selectedTeam, value);
-				if (CarDataSetCommand.CanExecute(SelectedCategory, SelectedManufacturer, SelectedTeam))
+				if (SetProperty(ref _selectedTeam, value))
 				{
 					CarDataSetCommand.Execute(null);
 				}
 			}
 		}
+
 		public CarEntity? SelectedCar
 		{
 			get => _selectedCar;
 			set
 			{
-				SetProperty(ref _selectedCar, value);
-				if (PhotoDataSetCommand.CanExecute(SelectedCategory, SelectedRound, SelectedManufacturer, SelectedTeam, SelectedCar))
+				if (SetProperty(ref _selectedCar, value))
 				{
 					PhotoDataSetCommand.Execute(null);
 				}
 			}
 		}
-		public DataSetCommand RoundDataSetCommand { get; }
-		public DataSetCommand ManufacturerDataSetCommand { get; }
-		public DataSetCommand TeamDataSetCommand { get; }
-		public DataSetCommand CarDataSetCommand { get; }
-		public DataSetCommand PhotoDataSetCommand { get; }
+
+		public PhotoEntity? SelectedPhoto
+		{
+			get => _selectedPhoto;
+			set
+			{
+				if (SetProperty(ref _selectedPhoto, value) && Guard.NotAllNull(_selectedPhoto))
+				{
+					ShowPhotoViewCommand.Execute(null);
+				}
+			}
+		}
+
 		public Visibility ViewVisibility
 		{
 			get => _viewVisibility;
-			set
-			{
-				SetProperty(ref _viewVisibility, value);
-			}
+			set => SetProperty(ref _viewVisibility, value);
 		}
+
 		public Visibility ProgressVisibility
 		{
 			get => _progressVisibility;
-			set
-			{
-				SetProperty(ref _progressVisibility, value);
-			}
+			set => SetProperty(ref _progressVisibility, value);
 		}
+		public ICommand RoundDataSetCommand { get => new DataSetCommand(RoundDataSet); }
+		public ICommand ManufacturerDataSetCommand { get => new DataSetCommand(ManufacturerDataSet); }
+		public ICommand TeamDataSetCommand { get => new DataSetCommand(TeamDataSet); }
+		public ICommand CarDataSetCommand { get => new DataSetCommand(CarDataSet); }
+		public ICommand PhotoDataSetCommand { get => new DataSetCommand(PhotoDataSet); }
+		public ICommand ShowPhotoViewCommand { get => new ShowPhotoViewCommand(this); }
 		public async Task InitializeAsync()
 		{
 			ViewVisibility = Visibility.Collapsed;
 			ProgressVisibility = Visibility.Visible;
 			CategoryList = await _categoryRepository.GetCategoriesWithDefaultAsync();
-			SelectedCategory = CategoryList.First();
+			SelectedCategory = CategoryList.FirstOrDefault();
 			ViewVisibility = Visibility.Visible;
 			ProgressVisibility = Visibility.Collapsed;
 		}
-		public async Task RoundDataSet()
+		private async Task RoundDataSet()
 		{
-			RoundList = await _roundRepository.GetRoundsWithDefaultAsync(
-				SelectedCategory!.Id.Value);
-			SelectedRound = RoundList.First();
+			RoundList = await _roundRepository.GetRoundsWithDefaultAsync(SelectedCategory?.Id.Value);
+			SelectedRound = RoundList.FirstOrDefault();
 		}
-		public async Task ManufacturerDataSet()
+		private async Task ManufacturerDataSet()
 		{
-			ManufacturerList = await _manufacturerRepository.GetManufacturersWithDefaultAsync(
-				SelectedCategory!.Id.Value);
-			SelectedManufacturer = ManufacturerList.First();
+			ManufacturerList = await _manufacturerRepository.GetManufacturersWithDefaultAsync(SelectedCategory?.Id.Value);
+			SelectedManufacturer = ManufacturerList.FirstOrDefault();
 		}
-		public async Task TeamDataSet()
+		private async Task TeamDataSet()
 		{
-			TeamList = await _teamRepository.GetTeamsWithDefaultAsync(
-				SelectedCategory!.Id.Value,
-				SelectedManufacturer!.Id.Value);
-			SelectedTeam = TeamList.First();
+			TeamList = await _teamRepository.GetTeamsWithDefaultAsync(SelectedCategory?.Id.Value, SelectedManufacturer?.Id.Value);
+			SelectedTeam = TeamList.FirstOrDefault();
 		}
-		public async Task CarDataSet()
+		private async Task CarDataSet()
 		{
-			CarList = await _carRepository.GetCarsWithDefaultAsync(SelectedCategory!.Id.Value,
-				SelectedManufacturer!.Id.Value,
-				SelectedTeam!.Id.Value);
-			SelectedCar = CarList.First();
+			CarList = await _carRepository.GetCarsWithDefaultAsync(SelectedCategory?.Id.Value, SelectedManufacturer?.Id.Value, SelectedTeam?.Id.Value);
+			SelectedCar = CarList.FirstOrDefault();
 		}
-		public async Task PhotoDataSet()
+		private async Task PhotoDataSet()
 		{
-			PhotoList = await _photoRepository.GetPhotosAsync(
-				SelectedCategory!.Id.Value,
-				SelectedRound!.Id.Value,
-				SelectedManufacturer!.Id.Value,
-				SelectedTeam!.Id.Value,
-				SelectedCar!.Id.Value);
+			PhotoList = await _photoRepository.GetPhotosAsync(SelectedCategory?.Id.Value, SelectedRound?.Id.Value, SelectedManufacturer?.Id.Value, SelectedTeam?.Id.Value, SelectedCar?.Id.Value);
 		}
 	}
 

@@ -12,12 +12,16 @@
 
   <ItemGroup>
     <None Remove="Resource\camera.png" />
+    <None Remove="Resource\noimage.jpg" />
     <None Remove="Resource\tofu_photo_exhibition_icon.ico" />
     <None Remove="Resource\tofu_photo_exhibition_logo.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Resource\camera.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resource\noimage.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resource\tofu_photo_exhibition_icon.ico">

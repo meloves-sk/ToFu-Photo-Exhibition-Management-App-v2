@@ -14,13 +14,13 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.Dammy
 			_manufacturers.Add(new ManufacturerEntity(2, "Manufacturer2"));
 			_manufacturers.Add(new ManufacturerEntity(3, "Manufacturer3"));
 		}
-		public async Task<ImmutableList<ManufacturerEntity>> GetManufacturersAsync(int categoryId)
+		public async Task<ImmutableList<ManufacturerEntity>> GetManufacturersAsync(int? categoryId)
 		{
 			await Task.CompletedTask;
 			return _manufacturers.ToImmutableList();
 		}
 
-		public async Task<ImmutableList<ManufacturerEntity>> GetManufacturersWithDefaultAsync(int categoryId)
+		public async Task<ImmutableList<ManufacturerEntity>> GetManufacturersWithDefaultAsync(int? categoryId)
 		{
 			var manufacturers = await GetManufacturersAsync(categoryId);
 			return manufacturers.AddDefaultValue(new ManufacturerEntity(0, "ALL"));

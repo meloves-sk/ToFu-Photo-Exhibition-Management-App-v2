@@ -9,8 +9,12 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.WebAPI
 {
 	public class PhotoRepository : IPhotoRepository
 	{
-		public async Task<ImmutableList<PhotoEntity>> GetPhotosAsync(int categoryId, int roundId, int manufacturerId, int teamId, int carId)
+		public async Task<ImmutableList<PhotoEntity>> GetPhotosAsync(int? categoryId, int? roundId, int? manufacturerId, int? teamId, int? carId)
 		{
+			if (!Guard.NotAllNull(categoryId, roundId, manufacturerId, teamId, carId))
+			{
+				return ImmutableList<PhotoEntity>.Empty;
+			}
 			var result = await APIHelper.Get<ServiceResponse<IEnumerable<PhotoResponseDto>>>($"api/photo/category/{categoryId}/round/{roundId}/manufacturer/{manufacturerId}/team/{teamId}/car/{carId}");
 			Guard.IsNull(result, "写真の取得に失敗しました");
 			Guard.IsFail(result.Success, result.Message);

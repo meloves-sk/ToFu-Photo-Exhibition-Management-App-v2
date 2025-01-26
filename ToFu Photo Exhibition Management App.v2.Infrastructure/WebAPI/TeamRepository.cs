@@ -9,8 +9,12 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.WebAPI
 {
 	internal class TeamRepository : ITeamRepository
 	{
-		public async Task<ImmutableList<TeamEntity>> GetTeamsAsync(int categoryId, int manufacturerId)
+		public async Task<ImmutableList<TeamEntity>> GetTeamsAsync(int? categoryId, int? manufacturerId)
 		{
+			if (!Guard.NotAllNull(categoryId, manufacturerId))
+			{
+				return ImmutableList<TeamEntity>.Empty;
+			}
 			var result = await APIHelper.Get<ServiceResponse<IEnumerable<TeamResponseDto>>>($"api/team/category/{categoryId}/manufacturer/{manufacturerId}");
 			Guard.IsNull(result, "チームの取得に失敗しました");
 			Guard.IsFail(result.Success, result.Message);
@@ -21,7 +25,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.WebAPI
 				.ToImmutableList();
 		}
 
-		public async Task<ImmutableList<TeamEntity>> GetTeamsWithDefaultAsync(int categoryId, int manufacturerId)
+		public async Task<ImmutableList<TeamEntity>> GetTeamsWithDefaultAsync(int? categoryId, int? manufacturerId)
 		{
 			var teams = await GetTeamsAsync(categoryId, manufacturerId);
 			return teams.AddDefaultValue(new TeamEntity(0, "ALL"));

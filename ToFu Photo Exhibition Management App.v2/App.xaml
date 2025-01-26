@@ -18,6 +18,11 @@
         <Style TargetType="ComboBox">
             <Setter Property="Width" Value="200"/>
         </Style>
+        <Style TargetType="ListBox">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="Margin" Value="10"/>
+        </Style>
         <Style TargetType="ListBoxItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Setter Property="VerticalContentAlignment" Value="Stretch"/>

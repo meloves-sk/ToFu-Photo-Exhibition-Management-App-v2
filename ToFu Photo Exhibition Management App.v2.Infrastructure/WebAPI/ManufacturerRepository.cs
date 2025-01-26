@@ -9,8 +9,12 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.WebAPI
 {
 	public class ManufacturerRepository : IManufacturerRepository
 	{
-		public async Task<ImmutableList<ManufacturerEntity>> GetManufacturersAsync(int categoryId)
+		public async Task<ImmutableList<ManufacturerEntity>> GetManufacturersAsync(int? categoryId)
 		{
+			if (!Guard.NotAllNull(categoryId))
+			{
+				return ImmutableList<ManufacturerEntity>.Empty;
+			}
 			var result = await APIHelper.Get<ServiceResponse<IEnumerable<ManufacturerResponseDto>>>($"api/manufacturer/category/{categoryId}");
 			Guard.IsNull(result, "メーカーの取得に失敗しました");
 			Guard.IsFail(result.Success, result.Message);
@@ -21,7 +25,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.WebAPI
 				.ToImmutableList();
 		}
 
-		public async Task<ImmutableList<ManufacturerEntity>> GetManufacturersWithDefaultAsync(int categoryId)
+		public async Task<ImmutableList<ManufacturerEntity>> GetManufacturersWithDefaultAsync(int? categoryId)
 		{
 			var manufacturers = await GetManufacturersAsync(categoryId);
 			return manufacturers.AddDefaultValue(new ManufacturerEntity(0, "ALL"));
