@@ -160,12 +160,12 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 			get => _progressVisibility;
 			set => SetProperty(ref _progressVisibility, value);
 		}
-		public ICommand RoundDataSetCommand { get => new DataSetCommand(RoundDataSet); }
-		public ICommand ManufacturerDataSetCommand { get => new DataSetCommand(ManufacturerDataSet); }
-		public ICommand TeamDataSetCommand { get => new DataSetCommand(TeamDataSet); }
-		public ICommand CarDataSetCommand { get => new DataSetCommand(CarDataSet); }
-		public ICommand PhotoDataSetCommand { get => new DataSetCommand(PhotoDataSet); }
-		public ICommand ShowPhotoViewCommand { get => new ShowPhotoViewCommand(this); }
+		public ICommand RoundDataSetCommand => new DataSetCommand(RoundDataSet);
+		public ICommand ManufacturerDataSetCommand => new DataSetCommand(ManufacturerDataSet);
+		public ICommand TeamDataSetCommand => new DataSetCommand(TeamDataSet);
+		public ICommand CarDataSetCommand => new DataSetCommand(CarDataSet);
+		public ICommand PhotoDataSetCommand => new DataSetCommand(PhotoDataSet);
+		public ICommand ShowPhotoViewCommand => new ShowPhotoViewCommand(this);
 		public async Task InitializeAsync()
 		{
 			ViewVisibility = Visibility.Collapsed;
@@ -177,27 +177,27 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 		}
 		private async Task RoundDataSet()
 		{
-			RoundList = await _roundRepository.GetRoundsWithDefaultAsync(SelectedCategory?.Id.Value);
-			SelectedRound = RoundList.FirstOrDefault();
+			RoundList = await _roundRepository.GetRoundsWithDefaultAsync(SelectedCategory?.Id);
+			SelectedRound = RoundList.First();
 		}
 		private async Task ManufacturerDataSet()
 		{
-			ManufacturerList = await _manufacturerRepository.GetManufacturersWithDefaultAsync(SelectedCategory?.Id.Value);
-			SelectedManufacturer = ManufacturerList.FirstOrDefault();
+			ManufacturerList = await _manufacturerRepository.GetManufacturersWithDefaultAsync(SelectedCategory?.Id);
+			SelectedManufacturer = ManufacturerList.First();
 		}
 		private async Task TeamDataSet()
 		{
-			TeamList = await _teamRepository.GetTeamsWithDefaultAsync(SelectedCategory?.Id.Value, SelectedManufacturer?.Id.Value);
-			SelectedTeam = TeamList.FirstOrDefault();
+			TeamList = await _teamRepository.GetTeamsWithDefaultAsync(SelectedCategory?.Id, SelectedManufacturer?.Id);
+			SelectedTeam = TeamList.First();
 		}
 		private async Task CarDataSet()
 		{
-			CarList = await _carRepository.GetCarsWithDefaultAsync(SelectedCategory?.Id.Value, SelectedManufacturer?.Id.Value, SelectedTeam?.Id.Value);
-			SelectedCar = CarList.FirstOrDefault();
+			CarList = await _carRepository.GetCarsWithDefaultAsync(SelectedCategory?.Id, SelectedManufacturer?.Id, SelectedTeam?.Id);
+			SelectedCar = CarList.First();
 		}
 		private async Task PhotoDataSet()
 		{
-			PhotoList = await _photoRepository.GetPhotosAsync(SelectedCategory?.Id.Value, SelectedRound?.Id.Value, SelectedManufacturer?.Id.Value, SelectedTeam?.Id.Value, SelectedCar?.Id.Value);
+			PhotoList = await _photoRepository.GetPhotosAsync(SelectedCategory?.Id, SelectedRound?.Id, SelectedManufacturer?.Id, SelectedTeam?.Id, SelectedCar?.Id);
 		}
 	}
 

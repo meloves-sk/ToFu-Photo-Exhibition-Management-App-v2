@@ -5,6 +5,7 @@ using ToFuPhotoExhibitionManagementApp.v2.Commands;
 using ToFuPhotoExhibitionManagementApp.v2.Domain.Entities;
 using ToFuPhotoExhibitionManagementApp.v2.Domain.Helper;
 using ToFuPhotoExhibitionManagementApp.v2.Domain.Repositories;
+using ToFuPhotoExhibitionManagementApp.v2.Domain.ValueObjects;
 using ToFuPhotoExhibitionManagementApp.v2.Infrastructure;
 
 namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
@@ -30,7 +31,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 		private TeamEntity? _selectedTeam;
 		private CarEntity? _selectedCar;
 
-		private string _filePath = string.Empty;
+		private string _filePath = "../Resource/noimage.jpg";
 		private string _description = string.Empty;
 
 		private Visibility _uploadVisibility = Visibility.Visible;
@@ -175,54 +176,52 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 		public ICommand TeamDataSetCommand => new DataSetCommand(TeamDataSet);
 		public ICommand CarDataSetCommand => new DataSetCommand(CarDataSet);
 		public ICommand OpenFileCommand => new OpenFileCommand(this);
+		public ICommand SavePhotoCommand => new SavePhotoCommand(this, _photoRepository);
 		public ICommand DeletePhotoCommand => new DeletePhotoCommand(this, _photoRepository);
 
 		public async Task InitializeAsync()
 		{
 			ViewVisibility = Visibility.Collapsed;
 			ProgressVisibility = Visibility.Visible;
-
 			FilePath = SelectedPhoto?.FilePath.Value ?? "../Resource/noimage.jpg";
 			Description = SelectedPhoto?.Description.Value ?? string.Empty;
-
 			CategoryList = await _categoryRepository.GetCategoriesAsync();
 			SelectedCategory = _isInitialize
-				? CategoryList.FirstOrDefault(a => a.Name.Value == SelectedPhoto?.Category.Value) ?? CategoryList.FirstOrDefault()
-				: CategoryList.FirstOrDefault();
-
+				? CategoryList.First(a => a.Name == new Name(SelectedPhoto!.Category.Value))
+				: CategoryList.First();
 			ViewVisibility = Visibility.Visible;
 			ProgressVisibility = Visibility.Collapsed;
 		}
 
 		private async Task RoundDataSet()
 		{
-			RoundList = await _roundRepository.GetRoundsAsync(SelectedCategory?.Id.Value);
+			RoundList = await _roundRepository.GetRoundsAsync(SelectedCategory?.Id);
 			SelectedRound = _isInitialize
-				? RoundList.FirstOrDefault(a => a.Name.Value == SelectedPhoto?.Round.Value)
+				? RoundList.First(a => a.Name == new Name(SelectedPhoto!.Round.Value))
 				: RoundList.FirstOrDefault();
 		}
 
 		private async Task ManufacturerDataSet()
 		{
-			ManufacturerList = await _manufacturerRepository.GetManufacturersAsync(SelectedCategory?.Id.Value);
+			ManufacturerList = await _manufacturerRepository.GetManufacturersAsync(SelectedCategory?.Id);
 			SelectedManufacturer = _isInitialize
-				? ManufacturerList.FirstOrDefault(a => a.Name.Value == SelectedPhoto?.Manufacturer.Value)
+				? ManufacturerList.First(a => a.Name == new Name(SelectedPhoto!.Manufacturer.Value))
 				: ManufacturerList.FirstOrDefault();
 		}
 
 		private async Task TeamDataSet()
 		{
-			TeamList = await _teamRepository.GetTeamsAsync(SelectedCategory?.Id.Value, SelectedManufacturer?.Id.Value);
+			TeamList = await _teamRepository.GetTeamsAsync(SelectedCategory?.Id, SelectedManufacturer?.Id);
 			SelectedTeam = _isInitialize
-				? TeamList.FirstOrDefault(a => a.Name.Value == SelectedPhoto?.Team.Value)
+				? TeamList.First(a => a.Name == new Name(SelectedPhoto!.Team.Value))
 				: TeamList.FirstOrDefault();
 		}
 
 		private async Task CarDataSet()
 		{
-			CarList = await _carRepository.GetCarsAsync(SelectedCategory?.Id.Value, SelectedManufacturer?.Id.Value, SelectedTeam?.Id.Value);
+			CarList = await _carRepository.GetCarsAsync(SelectedCategory?.Id, SelectedManufacturer?.Id, SelectedTeam?.Id);
 			SelectedCar = _isInitialize
-				? CarList.FirstOrDefault(a => a.Name.Value == SelectedPhoto?.Car.Value)
+				? CarList.First(a => a.Name == new Name(SelectedPhoto!.Car.Value))
 				: CarList.FirstOrDefault();
 			_isInitialize = false;
 		}

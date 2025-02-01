@@ -29,7 +29,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Commands
 			if (parameter is PhotoView photoView)
 			{
 				Guard.IsNull(_photoViewModel.SelectedPhoto, "写真が選択されていません");
-				var message = await _photoRepository.DeletePhotoAsync(_photoViewModel.SelectedPhoto!.Id.Value);
+				var message = await _photoRepository.DeletePhotoAsync(_photoViewModel.SelectedPhoto!.Id);
 				MessageBox.Show(message);
 				_photoViewModel.DialogResult = true;
 				photoView.Close();

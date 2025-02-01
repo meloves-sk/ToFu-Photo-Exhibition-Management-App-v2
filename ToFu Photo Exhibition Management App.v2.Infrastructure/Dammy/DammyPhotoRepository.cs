@@ -1,6 +1,7 @@
 ﻿using System.Collections.Immutable;
 using ToFuPhotoExhibitionManagementApp.v2.Domain.Entities;
 using ToFuPhotoExhibitionManagementApp.v2.Domain.Repositories;
+using ToFuPhotoExhibitionManagementApp.v2.Domain.ValueObjects;
 
 namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.Dammy
 {
@@ -13,16 +14,18 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.Dammy
 			_photos.Add(new PhotoEntity(2, "/Resource/tofu_photo_exhibition_logo.png", "Description2", 2, 2, "Round2", "Category2", "Car2", 2, "Team2", "Manufacturer2"));
 			_photos.Add(new PhotoEntity(3, "/Resource/tofu_photo_exhibition_logo.png", "Description3", 3, 3, "Round3", "Category3", "Car3", 3, "Team3", "Manufacturer3"));
 		}
-
-		public Task<string> DeletePhotoAsync(int photoId)
-		{
-			throw new NotImplementedException();
-		}
-
-		public async Task<ImmutableList<PhotoEntity>> GetPhotosAsync(int? categoryId, int? roundId, int? manufacturerId, int? teamId, int? carId)
+		public async Task<ImmutableList<PhotoEntity>> GetPhotosAsync(Id? categoryId, Id? roundId, Id? manufacturerId, Id? teamId, Id? carId)
 		{
 			await Task.CompletedTask;
 			return _photos.ToImmutableList();
+		}
+		public Task<string> SavePhotoAsync(Id? photoId, string description, Id roundId, Id carId, string filePath)
+		{
+			throw new NotImplementedException();
+		}
+		public Task<string> DeletePhotoAsync(Id photoId)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }
