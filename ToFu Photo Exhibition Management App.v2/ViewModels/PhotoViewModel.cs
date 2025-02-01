@@ -5,7 +5,6 @@ using ToFuPhotoExhibitionManagementApp.v2.Commands;
 using ToFuPhotoExhibitionManagementApp.v2.Domain.Entities;
 using ToFuPhotoExhibitionManagementApp.v2.Domain.Helper;
 using ToFuPhotoExhibitionManagementApp.v2.Domain.Repositories;
-using ToFuPhotoExhibitionManagementApp.v2.Domain.ValueObjects;
 using ToFuPhotoExhibitionManagementApp.v2.Infrastructure;
 
 namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
@@ -176,6 +175,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 		public ICommand TeamDataSetCommand => new DataSetCommand(TeamDataSet);
 		public ICommand CarDataSetCommand => new DataSetCommand(CarDataSet);
 		public ICommand OpenFileCommand => new OpenFileCommand(this);
+		public ICommand DeletePhotoCommand => new DeletePhotoCommand(this, _photoRepository);
 
 		public async Task InitializeAsync()
 		{

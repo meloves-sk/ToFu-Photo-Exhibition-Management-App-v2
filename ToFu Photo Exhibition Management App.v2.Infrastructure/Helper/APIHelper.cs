@@ -12,6 +12,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.Helper
 		{
 			using (var httpClient = new HttpClient())
 			{
+				httpClient.Timeout = TimeSpan.FromMinutes(1);
 				return await httpClient.GetFromJsonAsync<T>(Path.Combine(Shared.URL, arg));
 			}
 		}
@@ -20,6 +21,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.Helper
 		{
 			using (var httpClient = new HttpClient())
 			{
+				httpClient.Timeout = TimeSpan.FromMinutes(1);
 				var result = await httpClient.PostAsJsonAsync(Path.Combine(Shared.URL, arg), request);
 				return await result.Content.ReadFromJsonAsync<ServiceResponse<bool>>();
 			}
@@ -29,6 +31,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.Helper
 		{
 			using (var httpClient = new HttpClient())
 			{
+				httpClient.Timeout = TimeSpan.FromMinutes(1);
 				var result = await httpClient.PutAsJsonAsync(Path.Combine(Shared.URL, arg), request);
 				return await result.Content.ReadFromJsonAsync<ServiceResponse<bool>>();
 			}
@@ -37,6 +40,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.Helper
 		{
 			using (var httpClient = new HttpClient())
 			{
+				httpClient.Timeout = TimeSpan.FromMinutes(1);
 				var result = await httpClient.DeleteAsync(Path.Combine(Shared.URL, arg));
 				return await result.Content.ReadFromJsonAsync<ServiceResponse<bool>>();
 			}

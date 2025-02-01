@@ -33,5 +33,14 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.WebAPI
 					a.Manufacturer))
 				.ToImmutableList();
 		}
+
+		public async Task<string> DeletePhotoAsync(int photoId)
+		{
+			var result = await APIHelper.Delete($"api/photo/{photoId}");
+			Guard.IsNull(result, "写真の削除に失敗しました");
+			Guard.IsFail(result.Success, result.Message);
+			return result.Message;
+		}
+
 	}
 }
