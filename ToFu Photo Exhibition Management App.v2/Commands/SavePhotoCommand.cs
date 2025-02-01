@@ -28,7 +28,9 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Commands
 			if (parameter is PhotoView photoView)
 			{
 				Guard.IsFail(!_photoViewModel.FilePath.EndsWith("noimage.jpg"), "写真を選択してください");
-				var message = await _photoRepository.SavePhotoAsync(_photoViewModel.SelectedPhoto?.Id,_photoViewModel.Description,_photoViewModel.SelectedRound!.Id,_photoViewModel.SelectedCar!.Id,_photoViewModel.FilePath);
+				Guard.IsNull(_photoViewModel.SelectedRound, "ラウンドを選択してください");
+				Guard.IsNull(_photoViewModel.SelectedCar, "車両を選択してください");
+				var message = await _photoRepository.SavePhotoAsync(_photoViewModel.SelectedPhoto?.Id, _photoViewModel.Description, _photoViewModel.SelectedRound!.Id, _photoViewModel.SelectedCar!.Id, _photoViewModel.FilePath);
 				MessageBox.Show(message);
 				_photoViewModel.DialogResult = true;
 				photoView.Close();

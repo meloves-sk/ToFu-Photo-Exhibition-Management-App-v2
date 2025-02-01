@@ -19,6 +19,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2
 				"-- エラー内容 --\n" +
 				message,
 				"ToFu Photo Exhibition Management App");
+			e.Handled = true;
 		}
 	}
 
