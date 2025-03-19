@@ -40,19 +40,14 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.WebAPI
 		}
 		public async Task<string> SavePhotoAsync(Id? photoId, string description, Id roundId, Id carId, string filePath)
 		{
-			using (HttpClient httpClient = new HttpClient())
-			{
-				var image = photoId == null
-					? File.ReadAllBytes(filePath)
-					: await httpClient.GetByteArrayAsync(filePath);
-				var request = new PhotoRequestDto(photoId == null ? 0 : photoId.Value, description, roundId.Value, carId.Value, image);
-				var result = photoId == null
-					? await APIHelper.Post("api/photo", request)
-					: await APIHelper.Put("api/photo", request);
-				Guard.IsNull(result, "写真の保存に失敗しました");
-				Guard.IsFail(result.Success, result.Message);
-				return result.Message;
-			}
+			var image = photoId == null ? File.ReadAllBytes(filePath) : null;
+			var request = new PhotoRequestDto(photoId == null ? 0 : photoId.Value, description, roundId.Value, carId.Value, image);
+			var result = photoId == null
+				? await APIHelper.Post("api/photo", request)
+				: await APIHelper.Put("api/photo", request);
+			Guard.IsNull(result, "写真の保存に失敗しました");
+			Guard.IsFail(result.Success, result.Message);
+			return result.Message;
 		}
 		public async Task<string> DeletePhotoAsync(Id photoId)
 		{

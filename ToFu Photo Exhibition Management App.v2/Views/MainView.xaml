@@ -1,4 +1,4 @@
-﻿<Window x:Class="ToFuPhotoExhibitionManagementApp.v2.Views.MainView"
+﻿<mah:MetroWindow x:Class="ToFuPhotoExhibitionManagementApp.v2.Views.MainView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,7 +11,7 @@
         Style="{StaticResource Default}"
         Title="ToFu Photo Exhibition Management Application" 
         Height="1000" 
-        Width="1500"
+        Width="1550"
         Loaded="Window_Loaded">
     <Window.DataContext>
         <vm:MainViewModel/>
@@ -25,16 +25,16 @@
         </Grid.RowDefinitions>
         <Image Source="../Resource/tofu_photo_exhibition_logo.png" Width="200" HorizontalAlignment="Left"/>
         <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="1">
-            <TextBlock Text="Category: "/>
-            <ComboBox ItemsSource="{Binding CategoryList,IsAsync=True}" DisplayMemberPath="Name.Value" SelectedItem="{Binding SelectedCategory}"/>
-            <TextBlock Text=" Round: "/>
-            <ComboBox ItemsSource="{Binding RoundList,IsAsync=True}" DisplayMemberPath="Name.Value" SelectedItem="{Binding SelectedRound}"/>
-            <TextBlock Text=" Manufacturer: "/>
-            <ComboBox ItemsSource="{Binding ManufacturerList}" DisplayMemberPath="Name.Value" SelectedItem="{Binding SelectedManufacturer}"/>
-            <TextBlock Text=" Team: "/>
-            <ComboBox ItemsSource="{Binding TeamList}" DisplayMemberPath="Name.Value" SelectedItem="{Binding SelectedTeam}"/>
-            <TextBlock Text=" Car: "/>
-            <ComboBox ItemsSource="{Binding CarList}" Width="300"  DisplayMemberPath="Name.Value" SelectedItem="{Binding SelectedCar}"/>
+            <TextBlock Text="Category:  " VerticalAlignment="Center"/>
+            <ComboBox ItemsSource="{Binding CategoryList,IsAsync=True}" DisplayMemberPath="Name.Value" SelectedItem="{Binding SelectedCategory}" Width="200"/>
+            <TextBlock Text="  Round:  " VerticalAlignment="Center"/>
+            <ComboBox ItemsSource="{Binding RoundList,IsAsync=True}" DisplayMemberPath="Name.Value" SelectedItem="{Binding SelectedRound}" Width="200"/>
+            <TextBlock Text="  Manufacturer:  " VerticalAlignment="Center"/>
+            <ComboBox ItemsSource="{Binding ManufacturerList}" DisplayMemberPath="Name.Value" SelectedItem="{Binding SelectedManufacturer}" Width="200"/>
+            <TextBlock Text="  Team:  " VerticalAlignment="Center"/>
+            <ComboBox ItemsSource="{Binding TeamList}" DisplayMemberPath="Name.Value" SelectedItem="{Binding SelectedTeam}" Width="200"/>
+            <TextBlock Text="  Car:  " VerticalAlignment="Center"/>
+            <ComboBox ItemsSource="{Binding CarList}"  DisplayMemberPath="Name.Value" SelectedItem="{Binding SelectedCar}" Width="300"/>
         </StackPanel>
         <ListBox Grid.Row="2" ItemsSource="{Binding PhotoList}" SelectedItem="{Binding SelectedPhoto}"  Visibility="{Binding ViewVisibility}">
             <ListBox.ItemTemplate>
@@ -60,7 +60,7 @@
             <mah:ProgressRing/>
             <TextBlock Style="{StaticResource Progress}"/>
         </StackPanel>
-        <Button Grid.Row="3" HorizontalAlignment="Left" Command="{Binding ShowPhotoViewCommand}">
+        <Button Grid.Row="3" HorizontalAlignment="Left" Command="{Binding ShowPhotoViewCommand}" Width="200" Margin="10">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/Resource/camera.png" Width="20"/>
@@ -69,11 +69,11 @@
             </Button.Content>
         </Button>
         <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Right">
-            <Button Content="Round" />
-            <Button Content="Manufacturer" />
-            <Button Content="Team" />
-            <Button Content="Team Information" />
-            <Button Content="Car" />
+            <Button Content="Round" Width="150" Margin="10"/>
+            <Button Content="Manufacturer" Width="150" Margin="10"/>
+            <Button Content="Team" Width="150" Margin="10"/>
+            <Button Content="Team Information" Width="150" Margin="10"/>
+            <Button Content="Car" Width="150" Margin="10"/>
         </StackPanel>
     </Grid>
-</Window>
+</mah:MetroWindow>

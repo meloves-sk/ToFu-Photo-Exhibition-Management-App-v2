@@ -30,7 +30,11 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Commands
 				Guard.IsFail(!_photoViewModel.FilePath.EndsWith("noimage.jpg"), "写真を選択してください");
 				Guard.IsNull(_photoViewModel.SelectedRound, "ラウンドを選択してください");
 				Guard.IsNull(_photoViewModel.SelectedCar, "車両を選択してください");
+				_photoViewModel.ProgressVisibility = Visibility.Visible;
+				_photoViewModel.ViewVisibility = Visibility.Collapsed;
 				var message = await _photoRepository.SavePhotoAsync(_photoViewModel.SelectedPhoto?.Id, _photoViewModel.Description, _photoViewModel.SelectedRound!.Id, _photoViewModel.SelectedCar!.Id, _photoViewModel.FilePath);
+				_photoViewModel.ProgressVisibility = Visibility.Collapsed;
+				_photoViewModel.ViewVisibility = Visibility.Visible;
 				MessageBox.Show(message);
 				_photoViewModel.DialogResult = true;
 				photoView.Close();

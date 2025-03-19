@@ -1,11 +1,12 @@
-﻿using System.Windows;
+﻿using MahApps.Metro.Controls;
+using System.Windows;
 using ToFuPhotoExhibitionManagementApp.v2.ViewModels;
 namespace ToFuPhotoExhibitionManagementApp.v2.Views
 {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
-	public partial class MainView : Window
+	public partial class MainView : MetroWindow
 	{
 		private readonly MainViewModel _mainViewModel;
 		public MainView()

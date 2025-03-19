@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using MahApps.Metro.Controls;
+using System.Windows;
 using ToFuPhotoExhibitionManagementApp.v2.Domain.Entities;
 using ToFuPhotoExhibitionManagementApp.v2.ViewModels;
 
@@ -7,7 +8,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Views
 	/// <summary>
 	/// PhotoView.xaml の相互作用ロジック
 	/// </summary>
-	public partial class PhotoView : Window
+	public partial class PhotoView : MetroWindow
 	{
 		private readonly PhotoViewModel _photoViewModel;
 		public PhotoView(PhotoEntity? selectedPhoto = null)

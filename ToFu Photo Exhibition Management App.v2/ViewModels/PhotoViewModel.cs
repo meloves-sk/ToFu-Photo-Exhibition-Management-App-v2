@@ -31,6 +31,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 		private TeamEntity? _selectedTeam;
 		private CarEntity? _selectedCar;
 
+		private string _title = "Add Photo";
 		private string _filePath = "../Resource/noimage.jpg";
 		private string _description = string.Empty;
 
@@ -134,6 +135,12 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 			set => SetProperty(ref _selectedCar, value);
 		}
 
+		public string Title
+		{
+			get => _title;
+			set => SetProperty(ref _title, value);
+		}
+
 		public string FilePath
 		{
 			get => _filePath;
@@ -183,6 +190,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 		{
 			ViewVisibility = Visibility.Collapsed;
 			ProgressVisibility = Visibility.Visible;
+			Title = _isInitialize ? "Edit Photo" : "Add Photo";
 			FilePath = SelectedPhoto?.FilePath.Value ?? "../Resource/noimage.jpg";
 			Description = SelectedPhoto?.Description.Value ?? string.Empty;
 			CategoryList = await _categoryRepository.GetCategoriesAsync();

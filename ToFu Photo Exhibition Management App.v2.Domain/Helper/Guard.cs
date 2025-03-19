@@ -1,4 +1,6 @@
-﻿namespace ToFuPhotoExhibitionManagementApp.v2.Domain.Helper
+﻿using System.Collections.Immutable;
+
+namespace ToFuPhotoExhibitionManagementApp.v2.Domain.Helper
 {
 	public static class Guard
 	{
@@ -20,6 +22,7 @@
 			{
 				throw new Exception(message);
 			}
+
 		}
 	}
 }
