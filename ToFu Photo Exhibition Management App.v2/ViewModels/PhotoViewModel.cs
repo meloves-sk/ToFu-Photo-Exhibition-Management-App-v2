@@ -1,4 +1,5 @@
-﻿using System.Collections.Immutable;
+﻿using MahApps.Metro.Controls.Dialogs;
+using System.Collections.Immutable;
 using System.Windows;
 using System.Windows.Input;
 using ToFuPhotoExhibitionManagementApp.v2.Commands;
@@ -31,18 +32,16 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 		private TeamEntity? _selectedTeam;
 		private CarEntity? _selectedCar;
 
-		private string _title = "Add Photo";
-		private string _filePath = "../Resource/noimage.jpg";
+		private string _title;
+		private string _filePath;
 		private string _description = string.Empty;
 
 		private Visibility _uploadVisibility = Visibility.Visible;
 		private Visibility _deleteVisibility = Visibility.Collapsed;
-		private Visibility _viewVisibility = Visibility.Visible;
-		private Visibility _progressVisibility = Visibility.Collapsed;
 
-		private bool _isInitialize = true;
+		private bool isInitialize;
 
-		public PhotoViewModel(PhotoEntity? selectedPhoto = null)
+		public PhotoViewModel(IDialogCoordinator dialogCoordinator, PhotoEntity? selectedPhoto = null)
 		{
 			_categoryRepository = Factories.CreateCategoryRepository();
 			_roundRepository = Factories.CreateRoundRepository();
@@ -51,9 +50,13 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 			_carRepository = Factories.CreateCarRepository();
 			_photoRepository = Factories.CreatePhotoRepository();
 			SelectedPhoto = selectedPhoto;
-			UploadVisibility = Guard.NotAllNull(SelectedPhoto) ? Visibility.Collapsed : Visibility.Visible;
-			DeleteVisibility = Guard.NotAllNull(SelectedPhoto) ? Visibility.Visible : Visibility.Collapsed;
-			_isInitialize = Guard.NotAllNull(SelectedPhoto);
+			_title = SelectedPhoto != null ? "Edit Photo" : "Add Photo";
+			_filePath = SelectedPhoto?.FilePath.Value ?? "../Resource/noimage.jpg";
+			_description = SelectedPhoto?.Description.Value ?? string.Empty;
+			UploadVisibility = SelectedPhoto == null ? Visibility.Visible : Visibility.Collapsed;
+			DeleteVisibility = SelectedPhoto == null ? Visibility.Collapsed : Visibility.Visible;
+			isInitialize = SelectedPhoto != null;
+			DialogCoordinator = dialogCoordinator;
 		}
 
 		public ImmutableList<CategoryEntity> CategoryList
@@ -91,11 +94,9 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 			get => _selectedCategory;
 			set
 			{
-				if (SetProperty(ref _selectedCategory, value))
-				{
-					RoundDataSetCommand.Execute(null);
-					ManufacturerDataSetCommand.Execute(null);
-				}
+				SetProperty(ref _selectedCategory, value);
+				_ = LoadRoundsAsync();
+				_ = LoadManufacturersAsync();
 			}
 		}
 
@@ -110,10 +111,8 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 			get => _selectedManufacturer;
 			set
 			{
-				if (SetProperty(ref _selectedManufacturer, value))
-				{
-					TeamDataSetCommand.Execute(null);
-				}
+				SetProperty(ref _selectedManufacturer, value);
+				_ = LoadTeamsAsync();
 			}
 		}
 
@@ -122,10 +121,8 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 			get => _selectedTeam;
 			set
 			{
-				if (SetProperty(ref _selectedTeam, value))
-				{
-					CarDataSetCommand.Execute(null);
-				}
+				SetProperty(ref _selectedTeam, value);
+				_ = LoadCarsAsync();
 			}
 		}
 
@@ -165,73 +162,52 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 			set => SetProperty(ref _deleteVisibility, value);
 		}
 
-		public Visibility ViewVisibility
-		{
-			get => _viewVisibility;
-			set => SetProperty(ref _viewVisibility, value);
-		}
-
-		public Visibility ProgressVisibility
-		{
-			get => _progressVisibility;
-			set => SetProperty(ref _progressVisibility, value);
-		}
+		public IDialogCoordinator DialogCoordinator { get; }
 		public bool? DialogResult { get; set; }
 
-		public ICommand RoundDataSetCommand => new DataSetCommand(RoundDataSet);
-		public ICommand ManufacturerDataSetCommand => new DataSetCommand(ManufacturerDataSet);
-		public ICommand TeamDataSetCommand => new DataSetCommand(TeamDataSet);
-		public ICommand CarDataSetCommand => new DataSetCommand(CarDataSet);
 		public ICommand OpenFileCommand => new OpenFileCommand(this);
-		public ICommand SavePhotoCommand => new SavePhotoCommand(this, _photoRepository);
-		public ICommand DeletePhotoCommand => new DeletePhotoCommand(this, _photoRepository);
+		public ICommand SaveCommand => new SavePhotoCommand(this, _photoRepository);
+		public ICommand DeleteCommand => new DeletePhotoCommand(this, _photoRepository);
 
 		public async Task InitializeAsync()
 		{
-			ViewVisibility = Visibility.Collapsed;
-			ProgressVisibility = Visibility.Visible;
-			Title = _isInitialize ? "Edit Photo" : "Add Photo";
-			FilePath = SelectedPhoto?.FilePath.Value ?? "../Resource/noimage.jpg";
-			Description = SelectedPhoto?.Description.Value ?? string.Empty;
 			CategoryList = await _categoryRepository.GetCategoriesAsync();
-			SelectedCategory = _isInitialize
+			SelectedCategory = isInitialize
 				? CategoryList.First(a => a.Name == new Name(SelectedPhoto!.Category.Value))
 				: CategoryList.First();
-			ViewVisibility = Visibility.Visible;
-			ProgressVisibility = Visibility.Collapsed;
 		}
 
-		private async Task RoundDataSet()
+		private async Task LoadRoundsAsync()
 		{
 			RoundList = await _roundRepository.GetRoundsAsync(SelectedCategory?.Id);
-			SelectedRound = _isInitialize
-				? RoundList.First(a => a.Name == new Name(SelectedPhoto!.Round.Value))
+			SelectedRound = isInitialize
+				? RoundList.FirstOrDefault(a => a.Name == new Name(SelectedPhoto!.Round.Value))
 				: RoundList.FirstOrDefault();
 		}
 
-		private async Task ManufacturerDataSet()
+		private async Task LoadManufacturersAsync()
 		{
 			ManufacturerList = await _manufacturerRepository.GetManufacturersAsync(SelectedCategory?.Id);
-			SelectedManufacturer = _isInitialize
-				? ManufacturerList.First(a => a.Name == new Name(SelectedPhoto!.Manufacturer.Value))
+			SelectedManufacturer = isInitialize
+				? ManufacturerList.FirstOrDefault(a => a.Name == new Name(SelectedPhoto!.Manufacturer.Value))
 				: ManufacturerList.FirstOrDefault();
 		}
 
-		private async Task TeamDataSet()
+		private async Task LoadTeamsAsync()
 		{
 			TeamList = await _teamRepository.GetTeamsAsync(SelectedCategory?.Id, SelectedManufacturer?.Id);
-			SelectedTeam = _isInitialize
-				? TeamList.First(a => a.Name == new Name(SelectedPhoto!.Team.Value))
+			SelectedTeam = isInitialize
+				? TeamList.FirstOrDefault(a => a.Name == new Name(SelectedPhoto!.Team.Value))
 				: TeamList.FirstOrDefault();
 		}
 
-		private async Task CarDataSet()
+		private async Task LoadCarsAsync()
 		{
 			CarList = await _carRepository.GetCarsAsync(SelectedCategory?.Id, SelectedManufacturer?.Id, SelectedTeam?.Id);
-			SelectedCar = _isInitialize
-				? CarList.First(a => a.Name == new Name(SelectedPhoto!.Car.Value))
+			SelectedCar = isInitialize
+				? CarList.FirstOrDefault(a => a.Name == new Name(SelectedPhoto!.Car.Value))
 				: CarList.FirstOrDefault();
-			_isInitialize = false;
+			isInitialize = false;
 		}
 	}
 }

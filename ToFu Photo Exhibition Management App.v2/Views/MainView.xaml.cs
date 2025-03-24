@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using System.Windows;
 using ToFuPhotoExhibitionManagementApp.v2.ViewModels;
 namespace ToFuPhotoExhibitionManagementApp.v2.Views
@@ -12,7 +13,8 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Views
 		public MainView()
 		{
 			InitializeComponent();
-			_mainViewModel = (MainViewModel)DataContext;
+			_mainViewModel = new MainViewModel(DialogCoordinator.Instance);
+			DataContext = _mainViewModel;
 		}
 
 		private async void Window_Loaded(object sender, RoutedEventArgs e)

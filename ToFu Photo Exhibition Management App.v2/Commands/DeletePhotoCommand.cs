@@ -30,7 +30,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Commands
 			{
 				Guard.IsNull(_photoViewModel.SelectedPhoto, "写真が選択されていません");
 				var message = await _photoRepository.DeletePhotoAsync(_photoViewModel.SelectedPhoto!.Id);
-				MessageBox.Show(message);
+				await _photoViewModel.DialogCoordinator.ShowMessageAsync(_photoViewModel, "成功", message);
 				_photoViewModel.DialogResult = true;
 				photoView.Close();
 			}

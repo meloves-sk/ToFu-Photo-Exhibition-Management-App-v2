@@ -10,24 +10,11 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-                <md:MahAppsBundledTheme BaseTheme="Light" PrimaryColor="Red" SecondaryColor="Red" />
-                <md:BundledTheme BaseTheme="Light" PrimaryColor="Red" SecondaryColor="Red" />
+                <md:MahAppsBundledTheme BaseTheme="Dark" PrimaryColor="Red" SecondaryColor="Red" />
+                <md:BundledTheme BaseTheme="Dark" PrimaryColor="Red" SecondaryColor="Red" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Defaults.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <Style x:Key="Default" TargetType="mah:MetroWindow">
-                <Setter Property="Background" Value="Black"/>
-                <Setter  Property="Foreground" Value="White"/>
-                <Setter Property="FontSize" Value="17"/>
-            </Style>
-            <Style x:Key="Progress" TargetType="TextBlock">
-                <Setter Property="Text" Value="Loading..."/>
-                <Setter Property="FontStyle" Value="Italic"/>
-                <Setter Property="FontWeight" Value="Bold"/>
-                <Setter Property="FontSize" Value="20"/>
-                <Setter Property="Margin" Value="10"/>
-                <Setter Property="Foreground" Value="Red"/>
-            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

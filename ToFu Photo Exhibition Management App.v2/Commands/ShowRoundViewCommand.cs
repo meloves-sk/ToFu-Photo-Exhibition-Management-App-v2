@@ -1,13 +1,18 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using ToFuPhotoExhibitionManagementApp.v2.ViewModels;
 using ToFuPhotoExhibitionManagementApp.v2.Views;
 
 namespace ToFuPhotoExhibitionManagementApp.v2.Commands
 {
-	public class ShowPhotoViewCommand : ICommand
+	public class ShowRoundViewCommand : ICommand
 	{
 		private readonly MainViewModel _mainViewModel;
-		public ShowPhotoViewCommand(MainViewModel mainViewModel)
+		public ShowRoundViewCommand(MainViewModel mainViewModel)
 		{
 			_mainViewModel = mainViewModel;
 			_mainViewModel.PropertyChanged += (s, e) => CanExecuteChanged?.Invoke(s, e);
@@ -21,12 +26,11 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Commands
 
 		public async void Execute(object? parameter)
 		{
-			var photoView = new PhotoView(_mainViewModel.SelectedPhoto);
-			if (photoView.ShowDialog() == true)
+			var roundView = new RoundView();
+			if (roundView.ShowDialog() == true)
 			{
-				await _mainViewModel.LoadPhotosAsync();
+				await _mainViewModel.LoadRoundsAsync();
 			}
-			_mainViewModel.SelectedPhoto = null;
 		}
 	}
 }

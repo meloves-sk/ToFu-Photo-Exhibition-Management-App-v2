@@ -1,4 +1,5 @@
-﻿using System.Collections.Immutable;
+﻿using MahApps.Metro.Controls.Dialogs;
+using System.Collections.Immutable;
 using System.Windows;
 using System.Windows.Input;
 using ToFuPhotoExhibitionManagementApp.v2.Commands;
@@ -29,9 +30,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 		private TeamEntity? _selectedTeam = null;
 		private CarEntity? _selectedCar = null;
 		private PhotoEntity? _selectedPhoto = null;
-		private Visibility _viewVisibility = Visibility.Visible;
-		private Visibility _progressVisibility = Visibility.Collapsed;
-		public MainViewModel()
+		public MainViewModel(IDialogCoordinator dialogCoordinator)
 		{
 			_categoryRepository = Factories.CreateCategoryRepository();
 			_roundRepository = Factories.CreateRoundRepository();
@@ -39,6 +38,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 			_teamRepository = Factories.CreateTeamRepository();
 			_carRepository = Factories.CreateCarRepository();
 			_photoRepository = Factories.CreatePhotoRepository();
+			DialogCoordinator = dialogCoordinator;
 		}
 		public ImmutableList<CategoryEntity> CategoryList
 		{
@@ -81,11 +81,9 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 			get => _selectedCategory;
 			set
 			{
-				if (SetProperty(ref _selectedCategory, value))
-				{
-					RoundDataSetCommand.Execute(null);
-					ManufacturerDataSetCommand.Execute(null);
-				}
+				SetProperty(ref _selectedCategory, value);
+				_ = LoadRoundsAsync();
+				_ = LoadManufacturersAsync();
 			}
 		}
 
@@ -94,10 +92,8 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 			get => _selectedRound;
 			set
 			{
-				if (SetProperty(ref _selectedRound, value))
-				{
-					PhotoDataSetCommand.Execute(null);
-				}
+				SetProperty(ref _selectedRound, value);
+				_ = LoadPhotosAsync();
 			}
 		}
 
@@ -106,10 +102,8 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 			get => _selectedManufacturer;
 			set
 			{
-				if (SetProperty(ref _selectedManufacturer, value))
-				{
-					TeamDataSetCommand.Execute(null);
-				}
+				SetProperty(ref _selectedManufacturer, value);
+				_ = LoadTeamsAsync();
 			}
 		}
 
@@ -118,10 +112,8 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 			get => _selectedTeam;
 			set
 			{
-				if (SetProperty(ref _selectedTeam, value))
-				{
-					CarDataSetCommand.Execute(null);
-				}
+				SetProperty(ref _selectedTeam, value);
+				_ = LoadCarsAsync();
 			}
 		}
 
@@ -130,10 +122,8 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 			get => _selectedCar;
 			set
 			{
-				if (SetProperty(ref _selectedCar, value))
-				{
-					PhotoDataSetCommand.Execute(null);
-				}
+				SetProperty(ref _selectedCar, value);
+				_ = LoadPhotosAsync();
 			}
 		}
 
@@ -142,60 +132,46 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 			get => _selectedPhoto;
 			set
 			{
-				if (SetProperty(ref _selectedPhoto, value) && Guard.NotAllNull(_selectedPhoto))
+				SetProperty(ref _selectedPhoto, value);
+				if (Guard.NotAllNull(_selectedPhoto))
 				{
 					ShowPhotoViewCommand.Execute(null);
 				}
 			}
 		}
+		public IDialogCoordinator DialogCoordinator { get; }
 
-		public Visibility ViewVisibility
-		{
-			get => _viewVisibility;
-			set => SetProperty(ref _viewVisibility, value);
-		}
-
-		public Visibility ProgressVisibility
-		{
-			get => _progressVisibility;
-			set => SetProperty(ref _progressVisibility, value);
-		}
-		public ICommand RoundDataSetCommand => new DataSetCommand(RoundDataSet);
-		public ICommand ManufacturerDataSetCommand => new DataSetCommand(ManufacturerDataSet);
-		public ICommand TeamDataSetCommand => new DataSetCommand(TeamDataSet);
-		public ICommand CarDataSetCommand => new DataSetCommand(CarDataSet);
-		public ICommand PhotoDataSetCommand => new DataSetCommand(PhotoDataSet);
 		public ICommand ShowPhotoViewCommand => new ShowPhotoViewCommand(this);
+		public ICommand ShowRoundViewCommand => new ShowRoundViewCommand(this);
+
 		public async Task InitializeAsync()
 		{
-			ViewVisibility = Visibility.Collapsed;
-			ProgressVisibility = Visibility.Visible;
+			var controller = await DialogCoordinator.ShowProgressAsync(this, "", "読み込み中");
 			CategoryList = await _categoryRepository.GetCategoriesWithDefaultAsync();
 			SelectedCategory = CategoryList.FirstOrDefault();
-			ViewVisibility = Visibility.Visible;
-			ProgressVisibility = Visibility.Collapsed;
+			await controller.CloseAsync();
 		}
-		private async Task RoundDataSet()
+		public async Task LoadRoundsAsync()
 		{
 			RoundList = await _roundRepository.GetRoundsWithDefaultAsync(SelectedCategory?.Id);
 			SelectedRound = RoundList.First();
 		}
-		private async Task ManufacturerDataSet()
+		public async Task LoadManufacturersAsync()
 		{
 			ManufacturerList = await _manufacturerRepository.GetManufacturersWithDefaultAsync(SelectedCategory?.Id);
 			SelectedManufacturer = ManufacturerList.First();
 		}
-		private async Task TeamDataSet()
+		public async Task LoadTeamsAsync()
 		{
 			TeamList = await _teamRepository.GetTeamsWithDefaultAsync(SelectedCategory?.Id, SelectedManufacturer?.Id);
 			SelectedTeam = TeamList.First();
 		}
-		private async Task CarDataSet()
+		public async Task LoadCarsAsync()
 		{
 			CarList = await _carRepository.GetCarsWithDefaultAsync(SelectedCategory?.Id, SelectedManufacturer?.Id, SelectedTeam?.Id);
 			SelectedCar = CarList.First();
 		}
-		private async Task PhotoDataSet()
+		public async Task LoadPhotosAsync()
 		{
 			PhotoList = await _photoRepository.GetPhotosAsync(SelectedCategory?.Id, SelectedRound?.Id, SelectedManufacturer?.Id, SelectedTeam?.Id, SelectedCar?.Id);
 		}

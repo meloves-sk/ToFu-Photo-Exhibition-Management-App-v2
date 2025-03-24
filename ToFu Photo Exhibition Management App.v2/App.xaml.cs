@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using System.Windows;
 
 namespace ToFuPhotoExhibitionManagementApp.v2
 {
@@ -14,11 +16,9 @@ namespace ToFuPhotoExhibitionManagementApp.v2
 		}
 		private void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
 		{
+			var activeWindow = Current.Windows.OfType<MetroWindow>().Single(a=> a.IsActive);
 			var message = e.Exception.InnerException != null ? e.Exception.InnerException.Message : e.Exception.Message;
-			MessageBox.Show("異常を検知しました\n" +
-				"-- エラー内容 --\n" +
-				message,
-				"ToFu Photo Exhibition Management App");
+			activeWindow.ShowMessageAsync("エラー", message);
 			e.Handled = true;
 		}
 	}

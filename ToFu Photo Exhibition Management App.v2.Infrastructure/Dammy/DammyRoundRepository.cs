@@ -19,12 +19,26 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.Dammy
 		{
 			await Task.CompletedTask;
 			return _rounds.ToImmutableList();
-		}
 
+		}
 		public async Task<ImmutableList<RoundEntity>> GetRoundsWithDefaultAsync(Id? categoryId)
 		{
 			var rounds = await GetRoundsAsync(categoryId);
 			return rounds.AddDefaultValue(new RoundEntity(0, "ALL"));
+		}
+
+		public async Task<string> SaveRoundAsync(Id? roundId, string name, Id categoryId)
+		{
+			await Task.CompletedTask;
+			_rounds.Add(new RoundEntity(4, name));
+			return "Success";
+		}
+
+		public async Task<string> DeleteRoundAsync(Id roundId)
+		{
+			await Task.CompletedTask;
+			_rounds.Remove(_rounds.First(a => a.Id.Value == 4));
+			return "Success";
 		}
 	}
 }

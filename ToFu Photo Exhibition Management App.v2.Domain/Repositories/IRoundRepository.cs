@@ -8,5 +8,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Domain.Repositories
 	{
 		Task<ImmutableList<RoundEntity>> GetRoundsAsync(Id? categoryId);
 		Task<ImmutableList<RoundEntity>> GetRoundsWithDefaultAsync(Id? categoryId);
+		Task<string> SaveRoundAsync(Id? roundId, string name, Id categoryId);
+		Task<string> DeleteRoundAsync(Id roundId);
 	}
 }

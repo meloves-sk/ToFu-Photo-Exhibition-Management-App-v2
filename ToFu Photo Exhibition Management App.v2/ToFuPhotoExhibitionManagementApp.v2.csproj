@@ -14,7 +14,7 @@
     <None Remove="Resource\camera.png" />
     <None Remove="Resource\noimage.jpg" />
     <None Remove="Resource\tofu_photo_exhibition_icon.ico" />
-    <None Remove="Resource\tofu_photo_exhibition_logo.png" />
+    <None Remove="Resource\tofu_photo_exhibition_logo.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,9 +27,6 @@
     <Content Include="Resource\tofu_photo_exhibition_icon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resource\tofu_photo_exhibition_logo.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +37,10 @@
   <ItemGroup>
     <ProjectReference Include="..\ToFu Photo Exhibition Management App.v2.Domain\ToFuPhotoExhibitionManagementApp.v2.Domain.csproj" />
     <ProjectReference Include="..\ToFu Photo Exhibition Management App.v2.Infrastructure\ToFuPhotoExhibitionManagementApp.v2.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resource\tofu_photo_exhibition_logo.jpg" />
   </ItemGroup>
 
 </Project>

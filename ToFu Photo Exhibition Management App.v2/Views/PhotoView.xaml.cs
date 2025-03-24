@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using System.Windows;
 using ToFuPhotoExhibitionManagementApp.v2.Domain.Entities;
 using ToFuPhotoExhibitionManagementApp.v2.ViewModels;
@@ -14,7 +15,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Views
 		public PhotoView(PhotoEntity? selectedPhoto = null)
 		{
 			InitializeComponent();
-			_photoViewModel = new PhotoViewModel(selectedPhoto);
+			_photoViewModel = new PhotoViewModel(DialogCoordinator.Instance, selectedPhoto);
 			DataContext = _photoViewModel;
 		}
 

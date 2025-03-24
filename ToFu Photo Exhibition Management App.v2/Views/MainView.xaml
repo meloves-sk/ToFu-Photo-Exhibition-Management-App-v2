@@ -6,16 +6,15 @@
         xmlns:local="clr-namespace:ToFuPhotoExhibitionManagementApp.v2.Views"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:vm="clr-namespace:ToFuPhotoExhibitionManagementApp.v2.ViewModels"
+        xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Style="{StaticResource Default}"
+        Dialog:DialogParticipation.Register="{Binding}"
         Title="ToFu Photo Exhibition Management Application" 
         Height="1000" 
         Width="1550"
+        FontSize="17"
         Loaded="Window_Loaded">
-    <Window.DataContext>
-        <vm:MainViewModel/>
-    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -23,7 +22,7 @@
             <RowDefinition />
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Image Source="../Resource/tofu_photo_exhibition_logo.png" Width="200" HorizontalAlignment="Left"/>
+        <Image Source="../Resource/tofu_photo_exhibition_logo.jpg" Width="200" HorizontalAlignment="Left"/>
         <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="1">
             <TextBlock Text="Category:  " VerticalAlignment="Center"/>
             <ComboBox ItemsSource="{Binding CategoryList,IsAsync=True}" DisplayMemberPath="Name.Value" SelectedItem="{Binding SelectedCategory}" Width="200"/>
@@ -36,10 +35,10 @@
             <TextBlock Text="  Car:  " VerticalAlignment="Center"/>
             <ComboBox ItemsSource="{Binding CarList}"  DisplayMemberPath="Name.Value" SelectedItem="{Binding SelectedCar}" Width="300"/>
         </StackPanel>
-        <ListBox Grid.Row="2" ItemsSource="{Binding PhotoList}" SelectedItem="{Binding SelectedPhoto}"  Visibility="{Binding ViewVisibility}">
+        <ListBox Grid.Row="2" ItemsSource="{Binding PhotoList}" SelectedItem="{Binding SelectedPhoto}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Vertical"  Background="White" VerticalAlignment="Top">
+                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="No."/>
                             <TextBlock Text="{Binding CarNo.Value}" />
@@ -56,20 +55,11 @@
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>
-        <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding ProgressVisibility}">
-            <mah:ProgressRing/>
-            <TextBlock Style="{StaticResource Progress}"/>
-        </StackPanel>
-        <Button Grid.Row="3" HorizontalAlignment="Left" Command="{Binding ShowPhotoViewCommand}" Width="200" Margin="10">
-            <Button.Content>
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/Resource/camera.png" Width="20"/>
-                    <TextBlock Text=" Add Photo"/>
-                </StackPanel>
-            </Button.Content>
+        <Button Grid.Row="3" HorizontalAlignment="Left" Command="{Binding ShowPhotoViewCommand}" Width="50" Margin="10" Style="{StaticResource  MaterialDesignFloatingActionSecondaryLightButton}" >
+            <Image Source="/Resource/camera.png" Width="20"/>
         </Button>
         <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Right">
-            <Button Content="Round" Width="150" Margin="10"/>
+            <Button Content="Round" Command="{Binding ShowRoundViewCommand}" Width="150" Margin="10"/>
             <Button Content="Manufacturer" Width="150" Margin="10"/>
             <Button Content="Team" Width="150" Margin="10"/>
             <Button Content="Team Information" Width="150" Margin="10"/>
