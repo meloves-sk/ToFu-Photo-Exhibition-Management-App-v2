@@ -16,6 +16,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Commands
 		public EditRoundCommand(RoundViewModel roundViewModel)
 		{
 			_roundViewModel = roundViewModel;
+			_roundViewModel.PropertyChanged += (s, e) => CanExecuteChanged?.Invoke(s, e);
 		}
 		public event EventHandler? CanExecuteChanged;
 

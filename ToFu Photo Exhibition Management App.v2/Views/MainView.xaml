@@ -60,7 +60,7 @@
         </Button>
         <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Right">
             <Button Content="Round" Command="{Binding ShowRoundViewCommand}" Width="150" Margin="10"/>
-            <Button Content="Manufacturer" Width="150" Margin="10"/>
+            <Button Content="Manufacturer" Command="{Binding ShowManufacturerViewCommand}" Width="150" Margin="10"/>
             <Button Content="Team" Width="150" Margin="10"/>
             <Button Content="Team Information" Width="150" Margin="10"/>
             <Button Content="Car" Width="150" Margin="10"/>

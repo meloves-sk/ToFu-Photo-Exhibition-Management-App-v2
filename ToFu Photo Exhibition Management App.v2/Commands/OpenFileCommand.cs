@@ -10,6 +10,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Commands
 		public OpenFileCommand(PhotoViewModel photoViewModel)
 		{
 			_photoViewModel = photoViewModel;
+			_photoViewModel.PropertyChanged += (s, e) => CanExecuteChanged?.Invoke(s, e);
 		}
 		public event EventHandler? CanExecuteChanged;
 

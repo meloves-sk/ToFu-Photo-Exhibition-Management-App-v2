@@ -19,13 +19,17 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.Dammy
 			await Task.CompletedTask;
 			return _photos.ToImmutableList();
 		}
-		public Task<string> SavePhotoAsync(Id? photoId, string description, Id roundId, Id carId, string filePath)
+		public async Task<string> SavePhotoAsync(Id? photoId, string description, Id roundId, Id carId, string filePath)
 		{
-			throw new NotImplementedException();
+			await Task.CompletedTask;
+			_photos.Add(new PhotoEntity(4, filePath, description, roundId.Value, carId.Value, "Round", "Category", "Car", 1, "Team", "Manufacturer"));
+			return "Success";
 		}
-		public Task<string> DeletePhotoAsync(Id photoId)
+		public async Task<string> DeletePhotoAsync(Id photoId)
 		{
-			throw new NotImplementedException();
+			await Task.CompletedTask;
+			_photos.Remove(_photos.First(a => a.Id.Value == 1));
+			return "Success";
 		}
 	}
 }

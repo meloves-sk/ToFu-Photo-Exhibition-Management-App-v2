@@ -15,6 +15,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Commands
 		{
 			_photoViewModel = photoViewModel;
 			_photoRepository = photoRepository;
+			_photoViewModel.PropertyChanged += (s, e) => CanExecuteChanged?.Invoke(s, e);
 		}
 		public event EventHandler? CanExecuteChanged;
 

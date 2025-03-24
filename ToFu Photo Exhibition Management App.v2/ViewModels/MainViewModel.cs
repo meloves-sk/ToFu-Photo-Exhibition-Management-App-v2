@@ -143,6 +143,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 
 		public ICommand ShowPhotoViewCommand => new ShowPhotoViewCommand(this);
 		public ICommand ShowRoundViewCommand => new ShowRoundViewCommand(this);
+		public ICommand ShowManufacturerViewCommand => new ShowManufacturerViewCommand(this);
 
 		public async Task InitializeAsync()
 		{

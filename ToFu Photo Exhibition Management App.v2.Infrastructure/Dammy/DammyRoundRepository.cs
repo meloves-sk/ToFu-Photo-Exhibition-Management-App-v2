@@ -37,7 +37,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.Dammy
 		public async Task<string> DeleteRoundAsync(Id roundId)
 		{
 			await Task.CompletedTask;
-			_rounds.Remove(_rounds.First(a => a.Id.Value == 4));
+			_rounds.Remove(_rounds.First(a => a.Id.Value == 1));
 			return "Success";
 		}
 	}

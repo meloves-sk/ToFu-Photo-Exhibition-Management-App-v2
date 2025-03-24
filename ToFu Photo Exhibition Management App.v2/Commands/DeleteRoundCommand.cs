@@ -20,6 +20,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Commands
 		{
 			_roundViewModel = roundViewModel;
 			_roundRepository = roundRepository;
+			_roundViewModel.PropertyChanged += (s, e) => CanExecuteChanged?.Invoke(s, e);
 		}
 		public event EventHandler? CanExecuteChanged;
 
@@ -35,7 +36,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Commands
 				Guard.IsNull(selectedRound, "ラウンドが選択されていません");
 				var message = await _roundRepository.DeleteRoundAsync(selectedRound.Id);
 				await _roundViewModel.LoadRoundsAsync();
-				_roundViewModel.SelectedRound = null;
+				_roundViewModel.ResetCommand.Execute(null);	
 				await _roundViewModel.DialogCoordinator.ShowMessageAsync(_roundViewModel, "成功", message);
 				_roundViewModel.DialogResult = true;
 			}

@@ -8,5 +8,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Domain.Repositories
 	{
 		Task<ImmutableList<ManufacturerEntity>> GetManufacturersAsync(Id? categoryId);
 		Task<ImmutableList<ManufacturerEntity>> GetManufacturersWithDefaultAsync(Id? categoryId);
+		Task<string> SaveManufacturerAsync(Id? manufacturerId, string name);
+		Task<string> DeleteManufacturerAsync(Id manufacturerId);
 	}
 }
