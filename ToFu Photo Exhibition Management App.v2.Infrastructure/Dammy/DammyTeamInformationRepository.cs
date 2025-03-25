@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using ToFuPhotoExhibitionManagementApp.v2.Domain.Entities;
@@ -12,18 +13,30 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.Dammy
 {
 	public class DammyTeamInformationRepository : ITeamInformationRepository
 	{
-		public Task<ImmutableList<TeamInformationEntity>> GetTeamInformationsAsync(Id? categoryId, Id? manufacturerId)
+		private List<TeamInformationEntity> _teamInformations = new List<TeamInformationEntity>();
+		public DammyTeamInformationRepository()
 		{
-			throw new NotImplementedException();
+			_teamInformations.Add(new TeamInformationEntity(1, 1, 1, 1, "Team1", "Manufacturer1", "Category1"));
+			_teamInformations.Add(new TeamInformationEntity(2, 2, 2, 2, "Team2", "Manufacturer2", "Category2"));
+			_teamInformations.Add(new TeamInformationEntity(3, 3, 3, 3, "Team3", "Manufacturer3", "Category3"));
+		}
+		public async Task<ImmutableList<TeamInformationEntity>> GetTeamInformationsAsync(Id? categoryId, Id? manufacturerId)
+		{
+			await Task.CompletedTask;
+			return _teamInformations.ToImmutableList();
 		}
 
-		public Task<string> SaveTeamInformationAsync(Id? teamInformationId, Id teamId, Id manufacturerId, Id categoryId)
+		public async Task<string> SaveTeamInformationAsync(Id? teamInformationId, Id teamId, Id manufacturerId, Id categoryId)
 		{
-			throw new NotImplementedException();
+			await Task.CompletedTask;
+			_teamInformations.Add(new TeamInformationEntity(4, 4, 4, 4, "Team4", "Manufacturer4", "Category4"));
+			return "Success";
 		}
-		public Task<string> DeleteTeamInformationAsync(Id teamInformationId)
+		public async Task<string> DeleteTeamInformationAsync(Id teamInformationId)
 		{
-			throw new NotImplementedException();
+			await Task.CompletedTask;
+			_teamInformations.Remove(_teamInformations.First(a => a.Id.Value == 1));
+			return "Success";
 		}
 
 	}
