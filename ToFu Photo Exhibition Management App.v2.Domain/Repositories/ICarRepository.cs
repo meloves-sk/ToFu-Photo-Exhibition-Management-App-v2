@@ -8,5 +8,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Domain.Repositories
 	{
 		Task<ImmutableList<CarEntity>> GetCarsAsync(Id? categoryId, Id? manufacturerId, Id? teamId);
 		Task<ImmutableList<CarEntity>> GetCarsWithDefaultAsync(Id? categoryId, Id? manufacturerId, Id? teamId);
+		Task<string> SaveCarAsync(Id? carId, string name, int carNo, Id teamInformationId);
+		Task<string> DeleteCarAsync(Id carId);
 	}
 }

@@ -20,7 +20,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Domain.Helper
 		{
 			if (!success)
 			{
-				 throw new Exception(message);
+				throw new Exception(message);
 			}
 		}
 	}

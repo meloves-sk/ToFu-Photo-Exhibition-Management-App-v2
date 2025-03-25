@@ -26,14 +26,14 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 		private ImmutableList<TeamEntity> _teamList = ImmutableList<TeamEntity>.Empty;
 		private ImmutableList<CarEntity> _carList = ImmutableList<CarEntity>.Empty;
 
-		private CategoryEntity? _selectedCategory;
-		private RoundEntity? _selectedRound;
-		private ManufacturerEntity? _selectedManufacturer;
-		private TeamEntity? _selectedTeam;
-		private CarEntity? _selectedCar;
+		private CategoryEntity? _selectedCategory = null;
+		private RoundEntity? _selectedRound = null;
+		private ManufacturerEntity? _selectedManufacturer = null;
+		private TeamEntity? _selectedTeam = null;
+		private CarEntity? _selectedCar = null;
 
-		private string _title;
-		private string _filePath;
+		private string _title = string.Empty;
+		private string _filePath = string.Empty;
 		private string _description = string.Empty;
 
 		private Visibility _uploadVisibility = Visibility.Visible;
@@ -173,8 +173,8 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 		{
 			CategoryList = await _categoryRepository.GetCategoriesAsync();
 			SelectedCategory = isInitialize
-				? CategoryList.First(a => a.Name == new Name(SelectedPhoto!.Category.Value))
-				: CategoryList.First();
+				? CategoryList.FirstOrDefault(a => a.Name == new Name(SelectedPhoto!.Category.Value))
+				: CategoryList.FirstOrDefault();
 		}
 
 		private async Task LoadRoundsAsync()

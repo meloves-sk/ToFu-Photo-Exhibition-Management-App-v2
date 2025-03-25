@@ -15,6 +15,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.Dammy
 			_cars.Add(new CarEntity(2, "Car2", 1, 2, "Team2", "Manufacturer2", "Category2"));
 			_cars.Add(new CarEntity(3, "Car3", 1, 3, "Team3", "Manufacturer3", "Category3"));
 		}
+
 		public async Task<ImmutableList<CarEntity>> GetCarsAsync(Id? categoryId, Id? manufacturerId, Id? teamId)
 		{
 			await Task.CompletedTask;
@@ -25,6 +26,20 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.Dammy
 		{
 			var cars = await GetCarsAsync(categoryId, manufacturerId, teamId);
 			return cars.AddDefaultValue(new CarEntity(0, "ALL", 0, 0, string.Empty, string.Empty, string.Empty));
+		}
+
+		public async Task<string> SaveCarAsync(Id? carId, string name, int carNo, Id teamInformationId)
+		{
+			await Task.CompletedTask;
+			_cars.Add(new CarEntity(4, "Car4", 1, 4, "Team4", "Manufacturer4", "Category4"));
+			return "Success";
+		}
+
+		public async Task<string> DeleteCarAsync(Id carId)
+		{
+			await Task.CompletedTask;
+			_cars.Remove(_cars.First(a => a.Id.Value == 1));
+			return "Success";
 		}
 	}
 }

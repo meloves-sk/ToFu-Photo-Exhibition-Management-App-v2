@@ -39,6 +39,14 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure
 			}
 			return new TeamRepository();
 		}
+		public static ITeamInformationRepository CreateTeamInformationRepository()
+		{
+			if (Shared.IsDammy)
+			{
+				return new DammyTeamInformationRepository();
+			}
+			return new TeamInformationRepository();
+		}
 		public static ICarRepository CreateCarRepository()
 		{
 			if (Shared.IsDammy)

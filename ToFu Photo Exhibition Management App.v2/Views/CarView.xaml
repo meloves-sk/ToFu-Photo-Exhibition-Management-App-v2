@@ -1,0 +1,78 @@
+﻿<mah:MetroWindow x:Class="ToFuPhotoExhibitionManagementApp.v2.Views.CarView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ToFuPhotoExhibitionManagementApp.v2.Views"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:vm="clr-namespace:ToFuPhotoExhibitionManagementApp.v2.ViewModels"
+        xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        FontSize="17"
+        WindowStartupLocation="CenterScreen"
+        Dialog:DialogParticipation.Register="{Binding}"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing"
+        Title="CarView" Height="800" Width="1200">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Image Source="../Resource/tofu_photo_exhibition_logo.jpg" Width="200" HorizontalAlignment="Left"/>
+        <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Category:" VerticalAlignment="Center"/>
+                <ComboBox Width="200" ItemsSource="{Binding CategoryList}" DisplayMemberPath="Name.Value" SelectedItem="{Binding SelectedCategory}"/>
+                <TextBlock Text=" Manufacturer: " VerticalAlignment="Center"/>
+                <ComboBox Width="200" ItemsSource="{Binding ManufacturerList}" DisplayMemberPath="Name.Value" SelectedItem="{Binding SelectedManufacturer}"/>
+                <TextBlock Text=" Team: " VerticalAlignment="Center"/>
+                <ComboBox Width="200" ItemsSource="{Binding TeamInformationList}" DisplayMemberPath="Team.Value" SelectedItem="{Binding SelectedTeamInformation}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Name " VerticalAlignment="Center"/>
+                <TextBox Text="{Binding CarName}" Width="300"/>
+                <TextBlock Text=" CarNo " VerticalAlignment="Center"/>
+                <TextBox Text="{Binding CarNo}" Width="100"/>
+                <TextBlock Width="230"/>
+                <Button Content="Save" Command="{Binding SaveCommand}" Width="100"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right" Margin="10">
+            <TextBlock Text="{Binding Status}"/>
+            <TextBlock Width="20"/>
+            <TextBlock>
+                <Hyperlink Command="{Binding ResetCommand}">Reset</Hyperlink>
+            </TextBlock>
+        </StackPanel>
+        <DataGrid Grid.Row="3" ItemsSource="{Binding CarList}" Margin="10" IsReadOnly="True" SelectionMode="Single" CanUserAddRows="False" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Category" Width="*" Binding="{Binding Category.Value}"/>
+                <DataGridTextColumn Header="Manufacturer" Width="*" Binding="{Binding Manufacturer.Value}"/>
+                <DataGridTextColumn Header="Team" Width="*" Binding="{Binding Team.Value}"/>
+                <DataGridTextColumn Header="CarNo" Width="*" Binding="{Binding CarNo.Value}"/>
+                <DataGridTextColumn Header="Car" Width="3*" Binding="{Binding Name.Value}"/>
+                <DataGridTemplateColumn Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center">
+                                <Hyperlink Tag="{Binding}" Foreground="LightBlue" Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}">Edit</Hyperlink>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center">
+                              <Hyperlink Tag="{Binding}" Foreground="OrangeRed" Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}">Delete</Hyperlink>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</mah:MetroWindow>

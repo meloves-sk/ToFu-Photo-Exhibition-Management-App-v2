@@ -21,8 +21,8 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 		private readonly IRoundRepository _roundRepository;
 		private ImmutableList<CategoryEntity> _categoryList = ImmutableList<CategoryEntity>.Empty;
 		private ImmutableList<RoundEntity> _roundList = ImmutableList<RoundEntity>.Empty;
-		private CategoryEntity? _selectedCategory;
-		private RoundEntity? _selectedRound;
+		private CategoryEntity? _selectedCategory = null;
+		private RoundEntity? _selectedRound = null;
 		private string _roundName = string.Empty;
 		private string _status = "Unselected";
 		public RoundViewModel(IDialogCoordinator dialogCoordinator)

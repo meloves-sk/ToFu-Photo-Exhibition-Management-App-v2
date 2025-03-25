@@ -26,5 +26,19 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Infrastructure.Dammy
 			var teams = await GetTeamsAsync(categoryId, manufacturerId);
 			return teams.AddDefaultValue(new TeamEntity(0, "ALL"));
 		}
+		public async Task<string> SaveTeamAsync(Id? teamId, string name)
+		{
+			await Task.CompletedTask;
+			_teams.Add(new TeamEntity(4, name));
+			return "Success";
+		}
+
+		public async Task<string> DeleteTeamAsync(Id teamId)
+		{
+			await Task.CompletedTask;
+			_teams.Remove(_teams.First(a => a.Id.Value == 1));
+			return "Success";
+		}
+
 	}
 }

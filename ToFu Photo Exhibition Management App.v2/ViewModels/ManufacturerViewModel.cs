@@ -19,7 +19,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 	{
 		private readonly IManufacturerRepository _manufacturerRepository;
 		private ImmutableList<ManufacturerEntity> _manufacturerList = ImmutableList<ManufacturerEntity>.Empty;
-		private ManufacturerEntity? _selectedRound;
+		private ManufacturerEntity? _selectedManufacturer = null;
 		private string _manufacturerName = string.Empty;
 		private string _status = "Unselected";
 		public ManufacturerViewModel(IDialogCoordinator dialogCoordinator)
@@ -35,8 +35,8 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 
 		public ManufacturerEntity? SelectedManufacturer
 		{
-			get => _selectedRound;
-			set => SetProperty(ref _selectedRound, value);
+			get => _selectedManufacturer;
+			set => SetProperty(ref _selectedManufacturer, value);
 		}
 		public string ManufacturerName
 		{

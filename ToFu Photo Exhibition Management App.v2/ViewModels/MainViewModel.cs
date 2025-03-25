@@ -144,6 +144,9 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 		public ICommand ShowPhotoViewCommand => new ShowPhotoViewCommand(this);
 		public ICommand ShowRoundViewCommand => new ShowRoundViewCommand(this);
 		public ICommand ShowManufacturerViewCommand => new ShowManufacturerViewCommand(this);
+		public ICommand ShowTeamViewCommand => new ShowTeamViewCommand(this);
+		public ICommand ShowTeamInformationViewCommand => new ShowTeamInformationViewCommand(this);
+		public ICommand ShowCarViewCommand => new ShowCarViewCommand(this);
 
 		public async Task InitializeAsync()
 		{
@@ -155,22 +158,22 @@ namespace ToFuPhotoExhibitionManagementApp.v2.ViewModels
 		public async Task LoadRoundsAsync()
 		{
 			RoundList = await _roundRepository.GetRoundsWithDefaultAsync(SelectedCategory?.Id);
-			SelectedRound = RoundList.First();
+			SelectedRound = RoundList.FirstOrDefault();
 		}
 		public async Task LoadManufacturersAsync()
 		{
 			ManufacturerList = await _manufacturerRepository.GetManufacturersWithDefaultAsync(SelectedCategory?.Id);
-			SelectedManufacturer = ManufacturerList.First();
+			SelectedManufacturer = ManufacturerList.FirstOrDefault();
 		}
 		public async Task LoadTeamsAsync()
 		{
 			TeamList = await _teamRepository.GetTeamsWithDefaultAsync(SelectedCategory?.Id, SelectedManufacturer?.Id);
-			SelectedTeam = TeamList.First();
+			SelectedTeam = TeamList.FirstOrDefault();
 		}
 		public async Task LoadCarsAsync()
 		{
 			CarList = await _carRepository.GetCarsWithDefaultAsync(SelectedCategory?.Id, SelectedManufacturer?.Id, SelectedTeam?.Id);
-			SelectedCar = CarList.First();
+			SelectedCar = CarList.FirstOrDefault();
 		}
 		public async Task LoadPhotosAsync()
 		{
