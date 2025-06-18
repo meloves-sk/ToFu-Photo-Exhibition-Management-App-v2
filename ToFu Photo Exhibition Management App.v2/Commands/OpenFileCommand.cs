@@ -22,7 +22,7 @@ namespace ToFuPhotoExhibitionManagementApp.v2.Commands
 		public void Execute(object? parameter)
 		{
 			var openFileDialog = new OpenFileDialog();
-			openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png;";
+			openFileDialog.Filter = "Image files (*.jpg, *.jpeg)|*.jpg;*.jpeg;";
 			if (openFileDialog.ShowDialog() == true)
 			{
 				_photoViewModel.FilePath = openFileDialog.FileName;
